@@ -1,0 +1,6 @@
+hostname: "test-hostname"
+ssh_public_key: "test-ssh-key"
+root_password: "test-password"
+disk_encryption_passphrase: "test-passphrase"
+ipv6_address: "2001:db8::1"
+ipv6_gateway: "fe80::1%vio0"

@@ -1,0 +1,8 @@
+version: "7.6"
+arch: amd64
+output_dir: output
+templates_dir: templates
+mirror: rsync://mirror.planetunix.net
+install_server: http://install.example.com
+install_basic_auth: user:password
+install_server_dir: sets

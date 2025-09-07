@@ -1,0 +1,6 @@
+/		1G
+swap		4G
+/tmp		1G
+/usr		10G
+/var            10G
+/home           *

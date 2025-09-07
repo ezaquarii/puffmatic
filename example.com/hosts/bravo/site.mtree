@@ -1,0 +1,16 @@
+/set type=file uname=root gname=wheel mode=0644
+.                                     type=dir nochange
+    etc                               type=dir mode=0755
+        ssh                           type=dir mode=0755
+            ssh_host_ecdsa_key        mode=0600
+            ssh_host_ecdsa_key.pub    mode=0644
+            ssh_host_ed25519_key      mode=0600
+            ssh_host_ed25519_key.pub  mode=0644
+            ssh_host_rsa_key          mode=0600
+            ssh_host_rsa_key.pub      mode=0644
+            ..
+    	..
+    root                              type=dir mode=0755
+	README.txt                    mode=0600
+        ..
+    ..

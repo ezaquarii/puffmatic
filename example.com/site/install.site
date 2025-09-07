@@ -1,0 +1,23 @@
+#!/bin/ksh
+
+mkdir -p /etc/ssh/sshd_config.d
+if ! grep -q 'Include /etc/ssh/sshd_config.d/\*.conf' /etc/ssh/sshd_config; then
+    echo "# Include custom sshd configuration "  >> /etc/ssh/sshd_config
+    echo "Include /etc/ssh/sshd_config.d/*.conf" >> /etc/ssh/sshd_config
+fi
+
+if ! grep -q 'Port 1022' /etc/ssh/sshd_config; then
+    sed -i.orig 's/^\#Port 22$/Port 1022/' /etc/ssh/sshd_config
+fi
+
+if [ -f /etc/rc.firsttime ]; then
+    echo "rm -f /install.site" >> /etc/rc.firsttime
+    echo '[ -x /root/bootstrap.site ] && /root/bootstrap.site' >> /etc/rc.firsttime
+    echo '[ -x /root/bootstrap.host ] && /root/bootstrap.host' >> /etc/rc.firsttime
+fi
+
+for i in $(find /etc/ -name '*.override' -type f); do
+    mv $i ${i%.override}
+done
+
+/usr/sbin/rcctl enable unwind

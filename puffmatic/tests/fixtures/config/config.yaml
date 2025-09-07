@@ -1,0 +1,15 @@
+# common settings
+version: "7.7"
+arch: amd64
+output_dir: output
+templates_dir: templates
+mirror: rsync://mirror.planetunix.net/OpenBSD/
+install_server: http://install.example.com
+install_server_dir: 7.7/amd64
+install_basic_auth: user:pass
+
+# host specific settings
+hostname:
+ssh_public_key:
+root_password: 
+disk_encryption_passphrase:

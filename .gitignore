@@ -1,0 +1,12 @@
+*.gcov
+*.lcov
+.coverage
+.pytest_cache
+/puffmatic.egg-info
+/build
+/dist
+/htmlcov
+/output
+/venv
+TAGS
+__pycache__

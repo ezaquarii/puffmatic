@@ -1,0 +1,6 @@
+#!/bin/ksh
+
+rdate -s pool.ntp.org
+syspatch
+pkg_add -m python%3
+rm -f /install.site

@@ -1,0 +1,39 @@
+# General settings applicable to all hosts. These can be overridden in
+# specific host configurations found at hosts/{HOSTNAME}/install.yaml.
+version: "7.7"
+arch: amd64
+output_dir: output
+templates_dir: templates
+
+# Only rsync mirrors are supported.
+mirror: rsync://mirror.planetunix.net/OpenBSD/
+
+# Specify the location of your auto-install server.
+install_server: http://100.64.1.2:8080
+
+# Location of installation sets on your installation server. If your
+# installation server is accessible via the open internet, you may
+# want to set it to a secret value to prevent unauthorized users from
+# viewing the directory.
+install_server_dir: "deadbeef"
+
+# Enabling this option will secure the installation configuration
+# (response files) with basic authentication.
+install_basic_auth: user:pass
+
+# Host-specific configurations are documented here for reference.  To
+# customize, please override these settings in the host-specific files
+# found at hosts/{HOSTNAME}/install.yaml.
+hostname:
+
+# Root public SSH key.
+ssh_public_key:
+
+# Hashed root password; use the encrypt(1) command to generate the
+# password hash
+root_password:
+
+# Plain-text disk encryption passphrase. Note that the installer does
+# not support the hashed variant. Remember to update it with bioctl(8)
+# after completing the installation.
+disk_encryption_passphrase:

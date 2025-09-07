@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "puffmatic"
+version = "0.1.0a2"
+description = "Quickly generate files and installer images for unattended OpenBSD installation."
+readme = "README.md"
+authors = [
+    {name = "Chris narkiewicz", email = "hello@ezaquarii.com"}
+]
+license = "BSD-3-Clause"
+license-files = ["LICENSE.txt"]
+keywords = ["openbsd", "autoinstall", "sysutil"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3"
+]
+requires-python = ">=3.12"
+dependencies = ["Jinja2", "PyYAML"]
+
+[project.urls]
+Homepage = "https://github.com/ezaquarii/puffmatic/"
+Documentation = "https://github.com/ezaquarii/puffmatic/"
+Repository = "https://github.com/ezaquarii/puffmatic.git"
+Issues = "https://github.com/ezaquarii/puffmatic/issues"
+Changelog = "https://github.com/ezaquarii/puffmatic/blob/master/CHANGELOG.md"
+
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "debugpy",
+    "pytest",
+    "pytest-cov",
+]
+
+pub = [
+    "twine"
+]
+
+[tool.setuptools]
+script-files = ["bin/puffmatic-net", "bin/puffmatic-usb", "bin/puffmatic-umount"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.pytest.ini_options]
+addopts = "--cov=puffmatic --cov-report=lcov --cov-report=term --cov-report=term-missing --disable-warnings"

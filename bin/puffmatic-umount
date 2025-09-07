@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# This script unmounts installation image in case of a patching
+# failure.
+#
+
+python3 -m puffmatic patchimg-umount
+

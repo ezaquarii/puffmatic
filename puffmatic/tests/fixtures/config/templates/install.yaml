@@ -1,0 +1,4 @@
+ssh_public_key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGiENZpEP8Ofs2tc/hgOUkwXr7cTtFVESS3IdZPbWRe1HyPYRh3ybSd+W5wihC3ASc3xOb+4fKGejCS5Bytvdmk= this-is-a-fake-key@example.com"
+root_password: password
+disk_encryption_passphrase: passphrase
+use_autopartitioning_template: true

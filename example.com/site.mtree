@@ -1,0 +1,14 @@
+/set type=file uname=root gname=wheel mode=0644
+
+.                            type=dir nochange
+install.site                 mode=0755
+etc                          type=dir mode=0755
+    ssh                      type=dir mode=0755
+        sshd_config.d        type=dir mode=0755
+	..
+    ..
+    installurl               mode=0644
+    ..
+root                         type=dir mode=0755
+    .kshrc                   mode=0600
+    bootstrap.site           mode=0700

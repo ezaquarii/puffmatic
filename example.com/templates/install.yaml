@@ -1,0 +1,4 @@
+ssh_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPaePPgnEf+50UyCXV4dRtj1ARoC4d6IFK9wQrjbbBAC fake@example.com"
+root_password: "$2b$10$Rlaf.LgQ94j1clNsqxfXme9MvRjedIAEWAj0VkbrPnw0WeiZwRIFO"
+disk_encryption_passphrase: passphrase
+use_autopartitioning_template: true

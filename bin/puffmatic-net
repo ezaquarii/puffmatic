@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# This script generates network installation files
+# for all hosts.
+#
+
+python3 -m puffmatic mirror --once
+
+for host in hosts/*; do
+     python3 -m puffmatic disklabel --host-dir="${host}"
+done
+
+for host in hosts/*; do
+    python3 -m puffmatic response --host-dir="${host}"
+done
+
+for host in hosts/*; do
+    python3 -m puffmatic host-site-set --host-dir="${host}"
+done
+
+python3 -m puffmatic site-set --site-dir=site

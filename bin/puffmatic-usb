@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# This script creates an autoinstallable installer image
+# suitable for installation from USB drive.
+#
+
+
+HOST_DIR="hosts/${1}"
+
+if [ -z "${1}" ]; then
+    echo "usage: $(basename $0) host"
+    exit 1
+fi
+
+if [ ! -d ${HOST_DIR} ]; then
+    echo "no host dir ${HOST_DIR} for host ${1}"
+    exit 1
+fi
+
+set -e
+python3 -m puffmatic getimg --once
+python3 -m puffmatic patchimg --host-dir=${HOST_DIR}
