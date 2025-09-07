@@ -1,0 +1,5 @@
+Those keys are for demonstration purposes only and are not used anywhere.  I placed real keys
+here so the vmd(8) example is trivally runnable.
+
+DO NOT DEPLOY THEM.
+DO NOT REPORT THEM.

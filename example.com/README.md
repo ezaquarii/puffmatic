@@ -16,6 +16,12 @@ network.
   configuration
 - [config.yaml](config.yaml) is the main configuration file
 
+> [!IMPORTANT]
+> Examples demonstrate how to package ssh site keys.
+> Provided site key files contain real keys, but those keys are not used
+> anywhere. They just facilitate running examples on vmd(8). Do not report
+> them and do not deploy them to real machines.
+
 # [alfa](hosts/alfa)
 
 This host example illustrates the process of creating an

@@ -11,6 +11,18 @@ these sets on a [vmd(8)](https://man.openbsd.org/vmd) virtual machine.
 
 ## Installation
 
+### Installing from PyPI
+
+Puffmatic is released to PyPI, so you can install it using `pip`:
+
+```shell
+python3 -m venv venv
+. venv/bin/activate
+pip install puffmatic
+```
+
+### Running from source directory
+
 This script runs on OpenBSD and requires Python 3. All dependencies
 are in base system or are installed by `pip`.  Checkout source
 directory from git to boostrap it:
