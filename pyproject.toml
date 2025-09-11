@@ -4,14 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "puffmatic"
-version = "0.1.0a3"
+version = "0.1.0a4"
 description = "Quickly generate files and installer images for unattended OpenBSD installation."
 readme = "README.md"
 authors = [
     {name = "Chris narkiewicz", email = "hello@ezaquarii.com"}
 ]
-license = "BSD-3-Clause"
-license-files = ["LICENSE.txt"]
+license = { "text" = "BSD-3-Clause" }
 keywords = ["openbsd", "autoinstall", "sysutil"]
 classifiers = [
     "Intended Audience :: Developers",
