@@ -3,4 +3,5 @@
 		 (eval . (setq-local cov-lcov-file-name (expand-file-name "coverage.lcov" (projectile-project-root))))
 		 (eval . (keymap-local-set "<f5>" 'python-pytest-run-def-or-class-at-point))
 		 (eval . (keymap-local-set "M-<f5>" 'python-pytest-file))
-		 (eval . (keymap-local-set "<f6>" 'cov-update)))))
+		 (eval . (keymap-local-set "<f6>" 'cov-update))))
+ (nroff-mode . ((eval . (keymap-local-set "<f5>" 'my/preview-man)))))

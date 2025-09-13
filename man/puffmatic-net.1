@@ -1,0 +1,182 @@
+.Dd September 12 2025
+.Dt PUFFMATIC-NET 1
+.Os
+.Sh NAME
+.Nm puffmatic-net
+.Nd create OpenBSD installation sets for autoinstall
+.Sh SYNOPSIS
+.Nm puffmatic-net
+.Op Fl h
+.Op Fl v
+.Sh DESCRIPTION
+The
+.Nm
+utility downloads OpenBSD installation sets from a configured mirror
+and processes domain configurations for all hosts, creating
+autoinstall response files, disklabel files, and site sets.
+.Pp
+The resulting files can be served over HTTP for network
+installation. Before exposing installation files on the public
+internet, please refer to
+.Sx SECURITY CONSIDERATIONS
+.Pp  
+For additional details, please refer to
+.Sx EXAMPLES.
+.Pp
+Options:
+.Bl -tag -width Ds
+.It Fl h
+Display help and exit
+.It Fl v
+Enable verbose mode
+.El
+
+.Sh EXIT STATUS
+The
+.Nm
+exits with the following status:
+.Bl -tag -width Ds -offset indent -compact
+.It Li 0
+Success
+.It Li >0
+An error occured.
+.El
+.Sh EXAMPLES
+.Ss doas.conf
+Since
+.Nm
+required priviledged access to certain system executables, to avoid running
+it as \fBroot\fR you can leverage
+.Xr doas(1) :
+.Bd -literal -offset indent
+permit nopass user cmd mount
+permit nopass user cmd umount
+.Ed
+.Ss Generating response files and site sets
+Puffmatic ships with example domain configuration
+.Em example.com .
+The example contains configuration files and templates required to
+generate complete installable file sets for 2 hosts. Copy that
+directory into your
+.Pa $HOME
+first. Then, to generate site sets, enter the directory
+.Pa $HOME/example.com
+and run the script:
+
+.Bd -literal -offset indent
+$ cd ~/example.com
+$ puffmatic-net -v
+.Ed
+
+The output files will be placed in
+.Pa example.com/output/resp
+and
+.Pa example.com/output/sets ,
+by default.
+
+.Ss Service files with httpd
+Configure your
+.Xr httpd 8
+to serve response and set files using
+.Pa example.com/httpd/install.example.com.conf
+as example.
+
+To create \fBhtpasswd\fR, use
+.Xr htpasswd 1
+utility:
+
+.Bd -literal -offset indent
+$ echo user:pass | htpasswd -I > htpasswd
+.Ed
+
+and place it in location from the
+.Xr httpd 8
+configuration file.
+
+Copy file sets and response files to
+.Pa /var/www/install.example.com/resp
+and
+.Pa /var/www/install.example.com/sets .
+
+.Ss Run installer using vmd
+
+Example host
+.Em bravo
+is suitable for network installation using
+.Xr vmd 8 :
+
+.Bd -literal -offset indent
+$ vmctl -s 40G bravo.qcow2
+$ vmctl start -m 2G -L -d bravo.qcow2 -b output/sets/bsd.rd -c bravo
+.Ed
+
+Since allocated
+.Xr tap 4
+IP address depends on virtual machine ID and we use 100.64.1.0 network
+in the autoinstall response file, make sure your virtual machine
+starts with ID 1 or adjust the configuration.
+
+When prompted, choose
+.Em (A)utoinstall
+and point it to a response file:
+
+.Bd -literal -offset indent
+Welcome to the OpenBSD/amd64 7.7 installation program.
+(I)nstall, (U)pgrade, (A)utoinstall or (S)hell? a
+Could not determine auto mode.
+Response file location? [http://100.64.1.2/install.conf]
+http://user:pass@100.64.1.2:8080/install-bravo.conf
+(I)nstall or (U)pgrade? i
+Fetching http://user:pass@100.64.1.2:8080/install-bravo.conf
+Performing non-interactive install...
+.Ed
+
+.Sh DIAGNOSTICS
+.Pp
+Since puffmatic is written in Python, thereof any fatal error is
+likely to produce a detailed stack trace.
+.Pp
+Additional diangostic output will be reported to stdout when suitable.
+.Sh SEE ALSO
+.Xr autoinstall 8
+.Xr httpd 8
+.Xr mount_mfs 8
+.Xr mtree 8
+.Xr puffmatic-usb 1
+.Sh AUTHORS
+.Nm
+has been implemented by
+.An Chris Narkiewicz Aq Mt hello@ezaquarii.com
+.Sh CAVEATS
+.Pp
+This tool requires privileged access to execute the
+.Xr mount 8
+and
+.Xr umount 8
+commands, which are essential for mounting the mfs filesystem in
+noperm mode to create site archives.
+.Pp  
+The initial synchronization with the mirror may take considerable
+amount of time, as the script needs to download the complete file set
+from the mirror server. This process might create the impression that
+the script is unresponsive. However, subsequent executions will
+utilize these already downloaded files.
+.Sh BUGS
+To report a bug, please visit \fIhttps://github.com/ezaquarii/puffmatic/\fR.
+.Sh SECURITY CONSIDERATIONS
+.Pp  
+The resulting files are designed for HTTP delivery, facilitating
+(semi-)automatic installation on VPS hosting via the internet. Therefore,
+users must protect the files on the server from unauthorized access.
+.Pp  
+The configuration includes support for basic authentication and a
+.Qq secret path  
+method to secure archive files.
+.Pp  
+Response files can be secured using basic authentication and TLS.
+.Pp  
+While set archives can be secured by TLS, the installer does not
+support basic authentication. These files may be stored in a
+.Qq secret directory
+(path), which will remain accessible only to the installer having
+prior access to the (protected) response file.

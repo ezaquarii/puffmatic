@@ -1,3 +1,4 @@
+
 test:
 	pytest puffmatic
 
@@ -9,6 +10,9 @@ tags:
 
 build:
 	python3 -m build
+
+sdist:
+	python3 -m build --sdist
 
 upload:
 	python3 -m twine check dist/*

@@ -5,6 +5,7 @@
 /puffmatic.egg-info
 /build
 /dist
+/example.com/output
 /htmlcov
 /output
 /venv

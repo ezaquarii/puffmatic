@@ -1,0 +1,153 @@
+.Dd September 12 2025
+.Dt PUFFMATIC-USB 1
+.Os
+.Sh NAME
+.Nm puffmatic-usb
+.Nd create USB autoinstall image for OpenBSD
+.Sh SYNOPSIS
+.Nm puffmatic-usb
+.Op Fl h
+.Op Fl v
+.Op Ar hostdir
+.Sh DESCRIPTION
+The
+.Nm
+utility downloads OpenBSD installer image from a configured mirror
+and patches the
+.Pa /bsd.rd
+adding
+.Pa /auto_install.conf
+and
+.Pa /disklabel .
+Then it create (optional) site file set archives
+.Em site77.tgz
+and
+.Em site77-${hostname}.tgz
+and adds them to the file sets on the installation image.
+.Pp
+The resulting installer image allows unattended installation directly
+from USB stick.
+.Pp  
+For additional details, please refer to
+.Sx EXAMPLES .
+.Pp
+Options:
+.Bl -tag -width Ds
+.It Fl h
+displays short help message
+.It Fl v
+enable verbose mode
+.It Ar hostdir
+path to directory with host configuration; this path will be located
+in your domain config directory under
+.Pa hosts/
+subdirectory
+.El
+
+.Sh EXIT STATUS
+The
+.Nm
+exits with the following status:
+.Bl -tag -width Ds -offset indent -compact
+.It Li 0
+Success
+.It Li >0
+An error occured.
+.El
+.Sh EXAMPLES
+.Ss doas.conf
+Since
+.Nm
+required priviledged access to certain system executables, to avoid running
+it as \fBroot\fR you can leverage
+.Xr doas(1) :
+.Bd -literal -offset indent
+permit nopass user cmd mount
+permit nopass user cmd umount
+permit nopass user cmd vnconfig
+permit nopass user cmd install
+.Ed
+.Ss Generating installer for example.com host
+Puffmatic ships with example configuration
+.Em example.com/hosts/alfa .
+
+This host example illustrates the process of creating an
+autoinstallable USB image. The provided \fBinstall.conf\fR is tailored
+for a specific machine.
+
+This image is designed to be executed using
+.Xr vmd 8 .
+Since
+.Xr vmd 8
+boots from the first image, the installer will run from
+\fBsd0\fR, while the target disk must be designated as \fBsd1\fR.
+
+The host is configured with full disk encryption, a custom
+\fBboot.conf\fR, and a set of \fBsshd\fR host keys included in the
+host-specific \fBsite77-alfa.tgz\fR set.
+
+To generate the installer, first copy \fBexample.com\fR to your
+\fB$HOME\fR. Then:
+
+.Bd -literal -offset indent
+$ cd ~/example.com
+$ puffmatic-usb -v hosts/alfa
+.Ed
+
+The output file will be placed in
+.Pa example.com/output/img/install77-alfa.img
+by default.
+.Ss Testing installer using vmd
+
+First, create a suitable host disk image.  Then run the virtual
+machine with newly created installer image:
+
+.Bd -literal -offset indent
+vmctl create -s 40G alfa.qcow
+vmctl start -m 2G -L -d install77-alfa.img -d alfa.qcow2 -B disk -c alfa
+.Ed
+
+The installation should launch from the patched ramdisk and result in
+a fully functional system.
+
+.Sh DIAGNOSTICS
+.Pp
+Since
+.Em puffmatic
+is written in Python, thereof any fatal error is likely to produce a
+detailed stack trace.
+.Pp
+Additional diangostic output will be reported to stdout when suitable.
+.Sh SEE ALSO
+
+Tools related or directly invoked by
+.Em puffmatic :
+
+.Xr mount 8
+.Xr umount 8
+.Xr mtree 8
+.Xr vnconfig 8
+.Xr install 1
+.Xr vmctl 8
+.Xr puffmatic-net 1
+.Sh AUTHORS
+.Nm
+has been implemented by
+.An Chris Narkiewicz Aq Mt hello@ezaquarii.com
+.Sh CAVEATS
+.Pp
+This tool requires privileged access to execute the
+.Xr mount 8 ,
+.Xr umount 8 ,
+.Xr vnconfig 8 ,
+.Xr install 1
+commands, which are essential for mounting the image file, ramdisk
+filesystem and installing files with proper permissions.
+.Pp
+The initial installer download may take some amount of time. This
+process might create the impression that the script is
+unresponsive. However, subsequent executions will use already
+downloaded file.
+.Sh BUGS
+To report a bug, please visit
+\fIhttps://github.com/ezaquarii/puffmatic/\fR.

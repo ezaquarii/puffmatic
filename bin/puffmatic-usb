@@ -4,19 +4,45 @@
 # suitable for installation from USB drive.
 #
 
+BIN=$0
 
-HOST_DIR="hosts/${1}"
+function help {
+    echo "$(basename $BIN) [-v] host"
+    exit 0
+}
+
+
+VERBOSE=
+
+while getopts "hv" opt; do
+    case $opt in
+        h)
+	    help
+	    ;;
+        v)
+            VERBOSE="--verbose"
+	    ;;
+        *)
+	    echo "invalid option"
+            exit 1
+	    ;;
+    esac
+done
+shift $((OPTIND-1))
 
 if [ -z "${1}" ]; then
-    echo "usage: $(basename $0) host"
+    help
     exit 1
 fi
 
-if [ ! -d ${HOST_DIR} ]; then
-    echo "no host dir ${HOST_DIR} for host ${1}"
+
+HOST_DIR="hosts/${1}"
+
+if [ ! -d "$HOST_DIR" ]; then
+    echo host directory $HOST_DIR not found
     exit 1
 fi
 
 set -e
-python3 -m puffmatic getimg --once
-python3 -m puffmatic patchimg --host-dir=${HOST_DIR}
+python3 -m puffmatic $VERBOSE getimg --once
+python3 -m puffmatic $VERBOSE patchimg --host-dir=${HOST_DIR}
