@@ -1,9 +1,9 @@
 
 test:
-	pytest puffmatic
+	pytest src/puffmatic
 
 cov:
-	pytest --cov=puffmatic --cov-report=lcov --cov-report=html puffmatic
+	pytest --cov=puffmatic --cov-report=lcov --cov-report=html src/puffmatic
 
 tags:
 	find . -type f -name "*.py" | xargs etags

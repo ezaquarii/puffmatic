@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "puffmatic"
-version = "0.1.0a5"
+version = "0.1.0a7"
 description = "Quickly generate files and installer images for unattended OpenBSD installation."
 readme = "README.md"
 authors = [
     {name = "Chris narkiewicz", email = "hello@ezaquarii.com"}
 ]
-license = { "text" = "BSD-3-Clause" }
+license = {"text" = "BSD-3-Clause"}
 keywords = ["openbsd", "autoinstall", "sysutil"]
 classifiers = [
     "Intended Audience :: Developers",
@@ -44,10 +44,10 @@ pub = [
 script-files = ["bin/puffmatic-net", "bin/puffmatic-usb", "bin/puffmatic-umount"]
 
 [tool.setuptools.data-files] 
-"share/man/man1" = ["man/*.1"]
+"man/man1" = ["man/*.1"]
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=puffmatic --cov-report=lcov --cov-report=term --cov-report=term-missing --disable-warnings"

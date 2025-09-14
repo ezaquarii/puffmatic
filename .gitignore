@@ -2,7 +2,7 @@
 *.lcov
 .coverage
 .pytest_cache
-/puffmatic.egg-info
+/src/puffmatic.egg-info
 /build
 /dist
 /example.com/output
