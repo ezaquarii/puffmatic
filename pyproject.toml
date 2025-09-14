@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "puffmatic"
-version = "0.1.0a7"
+version = "0.1.0a6"
 description = "Quickly generate files and installer images for unattended OpenBSD installation."
 readme = "README.md"
 authors = [

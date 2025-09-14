@@ -1,13 +1,25 @@
 # Puffmatic - OpenBSD Autoinstall Generator
 
-This script facilitates the preparation of files for unattended
-OpenBSD installation. Refer to
-[autoinstall(8)](https://man.openbsd.org/autoinstall) for more
-details.
+This script streamlines the preparation of files for unattended
+OpenBSD installations using USB thumb drives and HTTP.
 
-The provided examples allow you to create auto-installable sets for
-USB and network installations. This tutorial demonstrates how to test
-these sets on a [vmd(8)](https://man.openbsd.org/vmd) virtual machine.
+It modifies the USB installer image with
+[autoinstall(8)](https://man.openbsd.org/autoinstall) response files
+and site sets.
+
+Additionally, the script can create a collection of response files,
+disk label files, and site set archives, which are suitable for
+serving through [httpd(8)](https://man.openbsd.org/httpd).
+
+This approach is particularly beneficial for faster provisioning on
+budget VPS systems where TFTP boot is not an option. Simply boot the
+installer from the vendor-provided image and direct it to the
+self-hosted response file. Installation assets can be secured using
+basic authentication (don't forget about TLS!).
+
+Provided [example.com](example.com) domain configuration can be tested
+using [vmd(8)](https://man.openbsd.org/vmd) and
+[httpd(8)](https://man.openbsd.org/httpd) locally.
 
 ## Installation
 
