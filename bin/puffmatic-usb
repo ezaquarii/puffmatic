@@ -44,5 +44,10 @@ if [ ! -d "$HOST_DIR" ]; then
 fi
 
 set -e
-python3 -m puffmatic $VERBOSE getimg --once
-python3 -m puffmatic $VERBOSE patchimg --host-dir=${HOST_DIR}
+
+if [ -d site ]; then
+   python3 -m puffmatic ${VERBOSE} site-set --site-dir=site
+fi
+python3 -m puffmatic ${VERBOSE} host-site-set --host-dir=${HOST_DIR}   
+python3 -m puffmatic ${VERBOSE} getimg        --once
+python3 -m puffmatic ${VERBOSE} patchimg      --host-dir=${HOST_DIR}
