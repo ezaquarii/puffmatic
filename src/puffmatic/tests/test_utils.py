@@ -81,9 +81,31 @@ class TestFormatCmd():
 
 class TestParseVersion():
 
+    def test_stable_version(self):
+        v = utils.parse_version_2("7.9")
+        assert v == utils.Version(7, 9, False)
+
+    def test_snapshot_version(self):
+        v = utils.parse_version_2("7.9-snapshot")
+        assert v == utils.Version(7, 9, True)
+
     def test_valid_version(self):
         v = utils.parse_version("7.6")
         assert v == (7, 6)
+
+    def test_as_full_version(self):
+        v = utils.Version(7, 8, False)
+        assert v.as_full_version() == "7.8"
+
+    def test_as_short_version(self):
+        v = utils.Version(7, 8, False)
+        assert v.as_short_version() == "78"
+
+    def test_as_path_segment(self):
+        v = utils.Version(7, 8, False)
+        assert v.as_path_segment() == "7.8"
+        v = utils.Version(7, 8, True)
+        assert v.as_path_segment() == "snapshots"
 
     def test_not_a_version(self):
         invalid_versions = ["abc",
@@ -92,11 +114,11 @@ class TestParseVersion():
                             "7",
                             ".",
                             "..",
-                            "1.2.3",
                             "7.a",
                             "a.7"]
         for v in invalid_versions:
-            assert not utils.parse_version(v)
+            assert not utils.parse_version(v), f"failed for {v}"
+            assert not utils.parse_version_2(v), f"failed for {v}"
 
     def test_parsing_version_tuple(self):
         v = utils.parse_version((7, 6))
@@ -161,7 +183,7 @@ class TestConfig():
         return config1
 
     def test_load(self, config):
-        assert config.version == (7, 6)
+        assert config.version == utils.Version(7, 7, True)
         assert config.arch == "amd64"
         assert config.mirror == "rsync://mirror.planetunix.net"
         assert config.install_server == "http://install.example.com"
@@ -179,7 +201,7 @@ class TestConfig():
     def test_update(self, config):
         config2_file = fixture_file("utils/config2.yaml")
         config = config.update(config2_file)
-        assert config.version == (7, 6)
+        assert config.version == utils.Version(7, 7, True)
         assert config.arch == "amd64"
         assert config.mirror == "rsync://mirror.planetunix.net"
         assert config.install_server == "http://install.example.com"
@@ -199,12 +221,6 @@ class TestConfig():
         with pytest.raises(FileNotFoundError):
             utils.Config.load(non_existing_file)
 
-    def test_version_full_str(self, config):
-        assert config.version_full == "7.6"
-
-    def test_version_short_str(self, config):
-        assert config.version_short == "76"
-
     def test_resp_server_url(self, config: utils.Config):
         u = urlparse(config.install_server)
         assert f"{u.scheme}://{config.install_basic_auth}@" in config.resp_server_url
@@ -216,8 +232,7 @@ class TestConfig():
 
     def test_to_dict(self, config):
         d = config.to_dict()
-        assert d["version_full"] == "7.6"
-        assert d["version_short"] == "76"
+        assert d["version"] == {"major": 7, "minor": 7, "snapshot": True}
         assert d["sets_output_dir"] == config.sets_output_dir
         assert d["resp_output_dir"] == config.resp_output_dir
         assert d["resp_server_url"] == config.resp_server_url

@@ -48,13 +48,16 @@ def mirror_dir2(work_dir, cfg):  # pragma: nocover
     be persisted between test run invocation. Mirroring entire
     release is time consuming and require several GBs of disk space.
     """
-    mirror_dir = os.path.join(work_dir, "mirror", "OpenBSD",
-                              cfg.version_full, cfg.arch) + os.sep
+    mirror_dir = os.path.join(work_dir,
+                              "mirror",
+                              "OpenBSD",
+                              cfg.version.as_path_segment(),
+                              cfg.arch) + os.sep
     stamp_file = os.path.join(mirror_dir, ".stamp")
     if os.path.isfile(stamp_file):
         return mirror_dir
-    src = ("rsync://mirror.planetunix.net/OpenBSD/"
-           f"{cfg.version_full}/{cfg.arch}")
+    src = ("rsync://rsync.mirrorservice.org/ftp.openbsd.org/pub/OpenBSD/"
+           f"{cfg.version.as_path_segment()}/{cfg.arch}/")
     os.makedirs(mirror_dir, exist_ok=True)
     assert mirror_dir.endswith("/")
     subprocess.run(["openrsync", "-v", "-r", src, mirror_dir],

@@ -71,7 +71,7 @@ def host_site_set_main(cfg, host_dir, **kwargs):
     """Generate siteXY-{hostname}.tgz tarballs."""
     host_dir = abspath(host_dir)
     hostname = basename(host_dir)
-    archive = f"site{cfg.version_short}-{hostname}.tgz"
+    archive = f"site{cfg.version.as_short_version()}-{hostname}.tgz"
     host_site_dir = join(host_dir, "site")
     host_mtree_file = join(host_dir, "site.mtree")
     sets_output_dir = abspath(cfg.sets_output_dir)
@@ -96,7 +96,7 @@ def site_set_main(cfg, site_dir, **kwargs):
     site_dir = abspath(site_dir)
     mtree_file = abspath(join(site_dir, "..", "site.mtree"))
     sets_output_dir = abspath(cfg.sets_output_dir)
-    archive = f"site{cfg.version_short}.tgz"
+    archive = f"site{cfg.version.as_short_version()}.tgz"
     os.makedirs(cfg.sets_output_dir, exist_ok=True)
     os.makedirs(cfg.tmp_dir, exist_ok=True)
     mount_tmp_dir(cfg.tmp_dir, size=32)

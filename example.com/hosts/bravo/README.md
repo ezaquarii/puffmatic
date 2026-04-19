@@ -4,7 +4,7 @@ This is host configuration suitable for installation over network.
 
 ## site and site.mtree
 
-This directory is packaged as `site77-bravo.tgz`. The files within
+This directory is packaged as `site79-bravo.tgz`. The files within
 `site` are packaged with the attributes specified in `site.mtree`.
 
 ## disklabel

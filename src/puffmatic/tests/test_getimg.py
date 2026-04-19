@@ -24,7 +24,7 @@ def test_download_file(cfg):
     # WHEN
     #     downloading single file from mirror
     getimg.download_file(mirror=cfg.mirror,
-                         version=cfg.version_full,
+                         version=cfg.version,
                          arch=cfg.arch,
                          file="SHA256",
                          output_dir=cfg.img_output_dir)
@@ -91,14 +91,14 @@ class TestGetimgMain():
         #      files match configured openbsd release version
         assert isfile(join(cfg.img_output_dir, "SHA256"))
         assert isfile(join(cfg.img_output_dir,
-                           f"install{cfg.version_short}.img"))
+                           f"install{cfg.version.as_short_version()}.img"))
 
     @mock.patch("puffmatic.getimg.download_file")
     def test_skip_download_if_stamp_exists(self, download_file, cfg):
         # GIVEN
         #     mirror stamp exists
         img_stamp_file = join(cfg.img_output_dir,
-                              f"install{cfg.version_short}.img.stamp")
+                              f"install{cfg.version.as_short_version()}.img.stamp")
         makedirs(cfg.img_output_dir, exist_ok=True)
         with open(img_stamp_file, "w") as f:
             f.write("test stamp")

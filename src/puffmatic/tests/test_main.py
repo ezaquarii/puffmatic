@@ -110,7 +110,7 @@ class TestMain():
         main(["--config", config_file, "host-site-set", "-H", host_dir])
         args = host_site_set_main.call_args.args
         kwargs = host_site_set_main.call_args.kwargs
-        assert args[0].version_short == "77"
+        assert args[0].version.as_short_version() == "78"
         assert kwargs["host_dir"] == host_dir
 
     @mock.patch("puffmatic.__main__.site_set_main")
@@ -120,7 +120,7 @@ class TestMain():
         main(["--config", config_file, "site-set", "--site-dir", site_dir])
         args = site_set_main.call_args.args
         kwargs = site_set_main.call_args.kwargs
-        assert args[0].version_short == "77"
+        assert args[0].version.as_short_version() == "78"
         assert kwargs["site_dir"] == site_dir
 
     @mock.patch("puffmatic.__main__.disklabel_main")
@@ -144,7 +144,7 @@ class TestMain():
         args = ["--config", config_file, "getimg"]
         main(args)
         args = getimg_main.call_args.args
-        assert args[0].version_short == "77"
+        assert args[0].version.as_short_version() == "78"
 
     @mock.patch("puffmatic.__main__.patchimg_main")
     def test_patchimg(self, patchimg_main, hosts_dir, config_file):
@@ -153,7 +153,7 @@ class TestMain():
         main(args)
         args = patchimg_main.call_args.args
         kwargs = patchimg_main.call_args.kwargs
-        assert args[0].version_short == "77"
+        assert args[0].version.as_short_version() == "78"
         assert kwargs["host_dir"] == host_dir
 
     @mock.patch("puffmatic.__main__.patchimg_umount_main")

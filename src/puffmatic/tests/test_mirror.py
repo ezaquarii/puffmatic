@@ -15,7 +15,7 @@ def test_mirror_release_dir(cfg, mirror_dir2):
 
     # WHEN
     #     files are downloaded to output dir
-    mirror.mirror_release_dir(version=cfg.version_full,
+    mirror.mirror_release_dir(version=cfg.version,
                               arch=cfg.arch,
                               output_dir=cfg.output_dir,
                               mirror=cfg.mirror)

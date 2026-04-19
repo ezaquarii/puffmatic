@@ -9,7 +9,7 @@ demonstrates automatic installation both from a USB stick and over the
 network.
 
 - [hosts](hosts) directory contains configuration for individual hosts
-- [site](site) contains files that will be packaged as `site77.tgz`
+- [site](site) contains files that will be packaged as `site79.tgz`
   set; it is accompanied by a [site.mtree](site.mtree) file for
   [mtree(8)](https://man.openbsd.org/mtree) utility
 - [templates](templates) contains generic templates shared by all host
@@ -34,7 +34,7 @@ while the root disk must be designated as `sd1`.
 
 The host is configured with full disk encryption, a custom
 `boot.conf`, and a set of `sshd` host keys included in the
-host-specific `site77-alfa.tgz`.
+host-specific `site79-alfa.tgz`.
 
 ## Creating bootable installer image
 
@@ -42,19 +42,19 @@ host-specific `site77-alfa.tgz`.
 puffmatic-usb alfa
 ```
 
-The resulting image file, `install77-alfa.img`, will be located in the
+The resulting image file, `install79-alfa.img`, will be located in the
 output directory.
 
 ## Testing installer with `vmd(8)`
 
-Create target disk image of at least 40G:
+Create target disk image:
 
 ```shell
 vmctl create -s 40G alfa.qcow2
 ```
 
 ```shell
-vmctl start -m 2G -L -d install77-alfa.img -d alfa.qcow2 -B disk -c alfa
+vmctl start -m 2G -L -d install79-alfa.img -d alfa.qcow2 -B disk -c alfa
 ```
 
 After installation, to avoid rerunning the installer again after a
@@ -132,7 +132,7 @@ sure your virtual machine starts with ID 1 or adjust the configuration.
 When prompted, choose `(A)utoinstall` and point it to a response file:
 
 ```
-Welcome to the OpenBSD/amd64 7.7 installation program.
+Welcome to the OpenBSD/amd64 7.9 installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? a
 Could not determine auto mode.
 Response file location? [http://100.64.1.2/install.conf] http://user:pass@100.64.1.2:8080/install-bravo.conf

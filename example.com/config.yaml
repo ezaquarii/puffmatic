@@ -1,12 +1,12 @@
 # General settings applicable to all hosts. These can be overridden in
 # specific host configurations found at hosts/{HOSTNAME}/install.yaml.
-version: "7.8"
+version: "7.9-snapshot"
 arch: amd64
 output_dir: output
 templates_dir: templates
 
 # Only rsync mirrors are supported.
-mirror: rsync://mirror.planetunix.net/OpenBSD/
+mirror: rsync://rsync.mirrorservice.org/ftp.openbsd.org/pub/OpenBSD/
 
 # Specify the location of your auto-install server.
 install_server: http://100.64.1.2:8080

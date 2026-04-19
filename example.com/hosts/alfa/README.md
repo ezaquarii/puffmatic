@@ -5,12 +5,12 @@ drive.
 
 ## site and site.mtree
 
-This directory is packaged as `site77-alfa.tgz`. The files within
+This directory is packaged as `site79-alfa.tgz`. The files within
 `site` are included with attributes defined in `site.mtree`.
 
 ## boot.conf
 
-Custom `boot.conf` will be placed in patched `install77.img`. This is
+Custom `boot.conf` will be placed in patched `install79.img`. This is
 useful if we're installing on a host without VGA console, so we don't
 have to switch console manually in boot prompt.
 
@@ -25,3 +25,6 @@ drive. Please consult the
 
 This is a response file that will be embedded into the ramdisk root
 verbatim, without any template processing.
+
+USB installer currently doesn't support templates - the response file
+is copied verbatim.

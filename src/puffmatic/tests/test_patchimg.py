@@ -139,8 +139,8 @@ def test_copy_site_sets(cfg, tmp_path):
     #     host specific site set
     src_dir = join(tmp_path, "src_sets")
     makedirs(src_dir)
-    sets = [f"site{cfg.version_short}.tgz",
-            f"site{cfg.version_short}-{cfg.hostname}.tgz"]
+    sets = [f"site{cfg.version.as_short_version()}.tgz",
+            f"site{cfg.version.as_short_version()}-{cfg.hostname}.tgz"]
     for s in sets:
         spath = join(src_dir, s)
         with open(spath, "w") as f:
@@ -184,11 +184,11 @@ class TestPatchImgMain():
         #     installXY.img downloaded into img directory
         #     host configuration present
         mirror_install_img = join(mirror_dir2,
-                                  f"install{cfg.version_short}.img")
+                                  f"install{cfg.version.as_short_version()}.img")
         assert isfile(mirror_install_img)
         host_dir = join(hosts_dir, "example")
         orig_install_img = join(cfg.img_output_dir,
-                                f"install{cfg.version_short}.img")
+                                f"install{cfg.version.as_short_version()}.img")
         makedirs(cfg.img_output_dir)
         shutil.copy(mirror_install_img, orig_install_img)
 
@@ -201,7 +201,7 @@ class TestPatchImgMain():
         #     original image not changed
         #     patched host specific image created
         patched_install_img = join(cfg.img_output_dir,
-                                   f"install{cfg.version_short}-example.img")
+                                   f"install{cfg.version.as_short_version()}-example.img")
         assert exists(patched_install_img)
 
 

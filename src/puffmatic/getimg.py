@@ -18,7 +18,9 @@ def _run(*args, **kwargs):
 def download_file(mirror, version, arch, file, output_dir):
     """Download a file from OpenBSD rsync mirror."""
     os.makedirs(output_dir, exist_ok=True)
-    _run(["openrsync", "-v", f"{mirror}/{version}/{arch}/{file}", "./"],
+    _run(["openrsync",
+          "-v",
+          f"{mirror.rstrip('/')}/{version.as_path_segment()}/{arch}/{file}", "./"],
          cwd=output_dir)
 
 
@@ -34,7 +36,7 @@ def getimg_main(cfg, once, **kwargs):
     It downloads OpenBSD USB installer image and places it in output
     directory. SHA256 is verified as well.
     """
-    img_file = f"install{cfg.version_short}.img"
+    img_file = f"install{cfg.version.as_short_version()}.img"
     sha_file = "SHA256"
     img_stamp_file = os.path.join(cfg.img_output_dir,
                                   f"{img_file}.stamp")
@@ -43,7 +45,7 @@ def getimg_main(cfg, once, **kwargs):
         return 0
     for file in [img_file, "SHA256"]:
         download_file(mirror=cfg.mirror,
-                      version=cfg.version_full,
+                      version=cfg.version,
                       arch=cfg.arch,
                       file=file,
                       output_dir=cfg.img_output_dir)

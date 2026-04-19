@@ -98,6 +98,43 @@ def run(cmd, **kwargs):
     return rc
 
 
+@dataclass
+class Version():
+    major: int
+    minor: int
+    snapshot: bool
+
+    def as_full_version(self) -> str:
+        return f"{self.major}.{self.minor}"
+
+    def as_short_version(self) -> str:
+        return f"{self.major}{self.minor}"
+
+    def as_path_segment(self) -> str:
+        if self.snapshot:
+            return "snapshots"
+        else:
+            return self.as_full_version()
+
+
+def parse_version_2(version: str) -> Version:
+    if type(version) is Version:
+        return version
+    parts = version.strip().lower().replace("-", ".").split(".")
+    try:
+        if len(parts) == 2:
+            major, minor = parts
+            return Version(int(major), int(minor), False)
+        elif len(parts) == 3:
+            major, minor, suffix = parts
+            snapshot = suffix in {"current", "snapshot"}
+            return Version(int(major), int(minor), snapshot)
+        else:
+            return None
+    except ValueError:
+        return None
+
+
 def parse_version(version: str | tuple) -> (int, int):
     """Parse version and return tuple of (major, minor)."""
     match version:
@@ -133,7 +170,7 @@ class Config():
     as values for config file template rendering.
     """
 
-    version: (int, int) = field(default=(0, 0))
+    version: Version = field(default_factory=lambda: Version(major=0, minor=0, snapshot=False))
     arch: str = field(default=None)
     mirror: str = field(default=None)
     install_server: str = field(default=None)
@@ -153,21 +190,19 @@ class Config():
 
     def __post_init__(self):
         """Convert values to native types."""
-        self.version = parse_version(self.version)
+        self.version = parse_version_2(self.version)
         if self.templates_dir:
             self.templates_dir = abspath(self.templates_dir)
         if self.output_dir:
             self.output_dir = abspath(self.output_dir)
 
     @property
-    def version_full(self):
-        """Format version."""
-        return f"{self.version[0]}.{self.version[1]}"
+    def version_short(self):
+        return self.version.as_short_version()
 
     @property
-    def version_short(self):
-        """Format version in short format, without dot."""
-        return f"{self.version[0]}{self.version[1]}"
+    def version_full(self):
+        return self.version.as_full_version()
 
     @property
     def sets_output_dir(self):

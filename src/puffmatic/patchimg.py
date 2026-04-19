@@ -121,11 +121,11 @@ def copy_site_sets(cfg: utils.Config, hostname, src_sets_dir, dst_sets_dir):
     Files are copied only if site sets exist.
     """
     assert hostname
-    assert cfg.version_short != (0, 0)
+    assert (cfg.version.major, cfg.version.minor) != (0, 0)
     host_site_tgz = join(src_sets_dir,
-                         f"site{cfg.version_short}-{hostname}.tgz")
+                         f"site{cfg.version.as_short_version()}-{hostname}.tgz")
     site_tgz = join(src_sets_dir,
-                    f"site{cfg.version_short}.tgz")
+                    f"site{cfg.version.as_short_version()}.tgz")
     if isfile(host_site_tgz):
         logger.info(f"copying {host_site_tgz} to {dst_sets_dir}/")
         makedirs(dst_sets_dir, exist_ok=True)
@@ -150,7 +150,7 @@ def patch_img(cfg: utils.Config, host_dir, install_img_file):
     mount_img(vnd=1, img_file=install_img_file, mnt_dir=img_mnt_dir)
     bsd_rd = join(img_mnt_dir, "bsd.rd")
     boot_conf = join(img_mnt_dir, "etc", "boot.conf")
-    img_sets_dir = join(img_mnt_dir, cfg.version_full, cfg.arch)
+    img_sets_dir = join(img_mnt_dir, cfg.version.as_full_version(), cfg.arch)
     patch_bsd_rd(cfg=cfg,
                  host_dir=host_dir,
                  bsd_rd_file=bsd_rd)
@@ -175,9 +175,9 @@ def patchimg_main(cfg, host_dir, **kwargs):
     host_dir = abspath(host_dir)
     hostname = basename(host_dir)
     orig_img_file = join(cfg.img_output_dir,
-                         f"install{cfg.version_short}.img")
+                         f"install{cfg.version.as_short_version()}.img")
     host_img_file = join(cfg.img_output_dir,
-                         f"install{cfg.version_short}-{hostname}.img")
+                         f"install{cfg.version.as_short_version()}-{hostname}.img")
     if not exists(host_img_file):
         logger.debug(f"copying {orig_img_file} to {host_img_file}")
         shutil.copy(orig_img_file, host_img_file)

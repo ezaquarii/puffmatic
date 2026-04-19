@@ -127,7 +127,7 @@ class TestHostSiteSetMain():
         #     archive is placed in output directory
         #     host suffix
         #     version in short format
-        set_archive = f"site{cfg.version_short}-{cfg.hostname}.tgz"
+        set_archive = f"site{cfg.version.as_short_version()}-{cfg.hostname}.tgz"
         set_archive_path = join(cfg.sets_output_dir, set_archive)
         assert exists(set_archive_path)
 
@@ -147,5 +147,5 @@ def test_site_set_main(cfg, hosts_dir, tmpdir):
     #     no hostname suffx
     #     version in short format
     site_archive_path = join(cfg.sets_output_dir,
-                             f"site{cfg.version_short}.tgz")
+                             f"site{cfg.version.as_short_version()}.tgz")
     assert exists(site_archive_path)

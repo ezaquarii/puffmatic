@@ -16,10 +16,16 @@ def _run(*args, **kwargs):
     return utils.run(*args, **kwargs)
 
 
-def mirror_release_dir(version, arch, output_dir, mirror):
+def mirror_release_dir(version: utils.Version,
+                       arch: str,
+                       output_dir: str,
+                       mirror: str):
     """Mirror OpenBSD release directory to output_dir."""
     os.makedirs(output_dir, exist_ok=True)
-    _run(["openrsync", "-v", "-r", f"{mirror}/{version}/{arch}/", "./"],
+    _run(["openrsync",
+          "-v",
+          "-r",
+          f"{mirror}/{version.as_path_segment()}/{arch}/", "./"],
          cwd=output_dir)
 
 
@@ -40,7 +46,7 @@ def mirror_main(cfg, once, **kwargs):
         logger.info(f"found {stamp_file} - skipping")
         return 0
 
-    mirror_release_dir(version=cfg.version_full,
+    mirror_release_dir(version=cfg.version,
                        arch=cfg.arch,
                        output_dir=cfg.sets_output_dir,
                        mirror=cfg.mirror)

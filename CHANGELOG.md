@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0a7] - 2026-04-26
+
+- add support for snapshots
+
 ## [0.1.0a6] - 2025-10-26
 
 - relax required Python interpreter to 3.11 (OpenBSD 7.6)

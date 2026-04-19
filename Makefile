@@ -1,4 +1,3 @@
-
 test:
 	pytest src/puffmatic
 
@@ -20,7 +19,9 @@ upload:
 
 bootstrap:
 	python3 -m venv venv
+	python3 -m pip install --upgrade pip
 	./venv/bin/pip install -e '.[dev]'
+	./venv/bin/pip install -e '.[pub]'
 
 clean:
 	rm -rf .pytest_cache
