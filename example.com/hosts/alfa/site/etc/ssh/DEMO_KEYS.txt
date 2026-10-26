@@ -1,5 +1,3 @@
-Those keys are for demonstration purposes only and are not used anywhere.  I placed real keys
-here so the vmd(8) example is trivally runnable.
-
-DO NOT DEPLOY THEM.
-DO NOT REPORT THEM.
+Run make build from example.com/ to create the SSH host key files
+required by this example. The command requires ssh-keygen.
+Generated keys are ignored by Git; existing keys are preserved.

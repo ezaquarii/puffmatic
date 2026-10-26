@@ -1,6 +1,6 @@
 # General settings applicable to all hosts. These can be overridden in
 # specific host configurations found at hosts/{HOSTNAME}/install.yaml.
-version: "7.9-snapshot"
+version: "8.0-snapshot"
 arch: amd64
 output_dir: output
 templates_dir: templates

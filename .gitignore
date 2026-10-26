@@ -12,3 +12,5 @@
 TAGS
 __pycache__
 *~
+/example.com/hosts/*/site/etc/ssh/ssh_host_*_key
+/example.com/hosts/*/site/etc/ssh/ssh_host_*_key.pub
